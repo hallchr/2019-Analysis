@@ -405,6 +405,12 @@ ggplot(subset(AllCountsAmbient, Site %in% c("LS-1", "JO-1", "NCLD-1", "PM-1", "S
 
 
 #ggspatial
+Sample_Map <- ggplot() +
+  geom_path(data = Basinsdf, aes(x = long, y = lat, group = group, color = factor(group)), fill = id, colour = "black") +
+  geom_line(data = Streamsdf, aes(x = long, y = lat, group = group), fill = id, colour = "blue") +
+  geom_point(data = Sample_Pointsdf, aes(x = Longitude, y = Latitude, group = watershed, colour = factor(watershed), size = 2)) +
+  theme_void() +
+  coord_map()
 
 
 Zn_basin <- ggplot(AllCountsAmbient2019, aes(Monitoring.Basin, Zn, na.rm=TRUE)) + geom_boxplot(aes(fill=Monitoring.Basin), alpha=0.4,na.rm=TRUE) + geom_hline(yintercept = 32, color = "orange2", size = 1) + geom_hline(yintercept = 35, color = "red", size=1) +
