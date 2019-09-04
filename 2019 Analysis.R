@@ -24,6 +24,7 @@ library(rgdal)
 library(raster)
 library(ggspatial)
 library(robustbase)
+library(QuantPsyc)
 
 #test
 
@@ -436,5 +437,14 @@ grid.arrange(Zn_basin, Cu_basin, Pb_basin, Sample_Map)
 
 
 #testing BIBI with multivariate regression analysis
-BIBIlmrob <- lmrob(formula = BIBI ~ DO + TEMP + Specific.Cond + Turbidity + Fecal.Coliform, data = AllCountsAmbient)
+BIBIlmrob <- lmrob(formula = BIBI ~ DO + TEMP  + Turbidity + Fecal.Coliform, data = AllCountsAmbient)
 summary(BIBIlmrob)
+lm.beta(BIBIlmrob) #to standardize coeefecients of dependent/predictor variables
+
+#looking at individual correlations....
+
+ggplot(AllCountsAmbient, aes(x=DO, y=BIBI, na.rm = TRUE)) + geom_point(size=2, shape=21, aes(fill = Site)) + 
+  geom_smooth(method = "lm", se=TRUE) + labs(y="BIBI", x="DO") +
+  theme(axis.text.x = element_text(angle = 90)) + theme_bw() +
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+        axis.text.y = element_text(size = 13), legend.title = element_text(size=10), legend.text = element_text(size=10), strip.text.x = element_text(size =12, colour = "steelblue3"))
