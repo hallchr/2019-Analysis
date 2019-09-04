@@ -23,7 +23,7 @@ library(sp)
 library(rgdal)
 library(raster)
 library(ggspatial)
-
+library(robustbase)
 
 #test
 
@@ -433,3 +433,8 @@ grid.arrange(Zn_basin, Cu_basin, Pb_basin, Sample_Map)
 #ggplot() +
 #ggspatial::geom_spatial_polygon(data = Basins, mapping = aes(colour = "Name")) +
 #coord_map()
+
+
+#testing BIBI with multivariate regression analysis
+BIBIlmrob <- lmrob(formula = BIBI ~ DO + TEMP + Specific.Cond + Turbidity + Fecal.Coliform, data = AllCountsAmbient)
+summary(BIBIlmrob)
