@@ -26,7 +26,7 @@ library(ggspatial)
 library(robustbase)
 library(QuantPsyc)
 
-#test
+#test1
 
 
 #remove.packages("ggplot2")
@@ -261,67 +261,7 @@ ggplot(subset(AllCountsAmbient, Season == "Summer"), aes(Monitoring.Basin, TEMP)
   theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 
-#temp by basin by site for 2019
 
-Temp_HC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Horse Creek"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "red4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y="Temperature (Degrees Celsius)") + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-Temp_LS <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Little Swamp Creek"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "purple4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-Temp_LNC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Lower North Creek"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "springgreen4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-
-Temp_LSR <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Lower Sammamish River"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "slategray4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-
-Temp_PC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Perry Creek"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "turquoise4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-
-Temp_UNC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Upper North Creek"), aes(Site, TEMP)) + 
-  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "salmon4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
-  stat_summary(fun.y= "mean", colour="black", geom="point", 
-               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
-  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
-  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
-  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
-                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
-
-
-grid.arrange(Temp_HC, Temp_LS, Temp_PC, Temp_LNC, Temp_UNC, Temp_LSR, nrow = 1)
 
 #Sediment________________________________
 
