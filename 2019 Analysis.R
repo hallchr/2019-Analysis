@@ -202,7 +202,7 @@ ggplot(AllCountsAmbient2018_2019, aes(Site, DO)) +
 
 #TEMP________________
 #ggplot2
-ggplot(subset(AllCountsAmbient2019, Site %in% c("HC-1", "HC-2", "NC-1", "WC-1", "NC_2", "QC_2")), aes(x=Date, y=TEMP, group = Site, colour = Temp.Type)) + geom_point(size=3, shape=21, fill="white") + geom_hline(yintercept = 16, color = "red") + 
+ggplot(subset(AllCountsAmbient2019, Site %in% c("HC-1", "HC-2", "NC-1", "WC-1", "NC-2", "QC-1")), aes(x=Date, y=TEMP, group = Site, colour = Temp.Type)) + geom_point(size=3, shape=21, fill="white") + geom_hline(yintercept = 16, color = "red") + 
   geom_line(size=1) + facet_wrap(~Site, ncol = 1) + labs(title=NULL, subtitle=NULL, y="Temperature (Degrees Celcius)", x= "Date", caption = "Ambient Locations, 2010-2018") +
   scale_x_date(breaks = date_breaks("1 month"), labels = date_format("%b-%y")) +  theme_bw() + theme(axis.title.y = element_text(size=22), title = element_text(size = 18), axis.text.x = element_text(size = 15, angle = 65, vjust = 0.6),
                                                                                                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=16), axis.title.x = element_text(size = 18),
@@ -257,14 +257,24 @@ ggplot(subset(AllCountsAmbient, Season == "Summer"), aes(Monitoring.Basin, TEMP)
 pturb2019 <- ggplot(AllCountsAmbient2019, aes(Site, Turbidity)) + 
   stat_boxplot(geom = 'errorbar', width = 0.4, color = "cyan4") +
   geom_boxplot(fill = "gray94", width = 0.5, color = "cyan4")  +
-  labs(title = "e. Turbidity (NTU)", subtitle=NULL, y=NULL, x=NULL) + scale_y_log10(breaks=c(0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 150)) +
+  labs(title = "e. Turbidity (NTU)", subtitle=NULL, y=NULL, x=NULL) +
   theme(axis.title.y = element_text(size=7), title = element_text(size = 15), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
   theme_few() + theme(axis.title.y = element_text(size=7), title = element_text(size = 8), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                       axis.text.y = element_text(size = 10), legend.title = element_text(size=18), legend.text = element_text(size=15)) + coord_flip()
 
-pturb2019 <- ggplotly(pturb)
+pturb2019 <- ggplotly(pturb2019)
 
 pturb2019
+
+pturb2019runoff <- ggplot(AllCountsAmbient2019, aes(Site, Turbidity)) + 
+  stat_boxplot(geom = 'errorbar', width = 0.4, color = "cyan4") +
+  geom_boxplot(fill = "gray94", width = 0.5, color = "cyan4")  +
+  labs(title = "e. Turbidity (NTU)", subtitle=NULL, y=NULL, x=NULL) +
+  theme(axis.title.y = element_text(size=7), title = element_text(size = 15), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_few() + theme(axis.title.y = element_text(size=7), title = element_text(size = 8), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                      axis.text.y = element_text(size = 10), legend.title = element_text(size=18), legend.text = element_text(size=15)) + coord_flip()
+
+pturb2019 <- ggplotly(pturb2019)
 
 f <- list(
   family = "helvetica",
