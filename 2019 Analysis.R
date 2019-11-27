@@ -79,6 +79,8 @@ AllCountsAmbient2018_2019 <- subset(AllCountsAmbient, Year %in% c("2018", "2019"
 AllCountsAmbient$CurrentYear <- '2010-2018'
 AllCountsAmbient$CurrentYear[AllCountsAmbient$Year == '2019'] <- '2019'
 
+AllCountsSUmmer2019 <-subset(AllCountsAmbient2019, Season == "Summer")
+
 #if we wanna look at sample map:
 
 Basins <- rgdal::readOGR(dsn = "inputs", layer = "Monitoring_Basins_Project")
@@ -160,7 +162,7 @@ DO_2018 <- plot_ly(subset(AllCountsAmbient, Year %in% "2018"), y = ~DO, x = ~Sit
 subplot(DO_2018, DO_2019, nrows = 1, shareX = T)
 
 
-ggplot(subset(AllCountsAmbient2019, Site %in% c("HC-1", "HC-2", "NC-1", "WC-1", "NC_2", "QC_2")), aes(x=Date, y=DO, group = Site, colour = DO.Type)) + geom_point(size=3, shape=21, fill="white") + geom_hline(yintercept = 9.5, color = "red") + 
+ggplot(subset(AllCountsAmbient2019, Site %in% c("HC-1", "HC-2", "NC-1", "WC-1", "NC-2", "QC-1")), aes(x=Date, y=DO, group = Site, colour = DO.Type)) + geom_point(size=3, shape=21, fill="white") + geom_hline(yintercept = 9.5, color = "red") + 
   geom_line(size=1) + facet_wrap(~Site, ncol = 1) + labs(title=NULL, subtitle=NULL, y="DO (mg/L)", x= "Date", caption = "Ambient Locations, 2019") +
   scale_x_date(breaks = date_breaks("1 month"), labels = date_format("%b-%y")) +  theme_bw() + theme(axis.title.y = element_text(size=22), title = element_text(size = 18), axis.text.x = element_text(size = 15, angle = 65, vjust = 0.6),
                                                                                                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=16), axis.title.x = element_text(size = 18),
@@ -198,7 +200,17 @@ ggplot(AllCountsAmbient2018_2019, aes(Site, DO)) +
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 
 
+ #DO by basin
 
+ggplot(subset(AllCountsAmbient, Season == "Summer"), aes(Monitoring.Basin, DO)) + 
+  stat_boxplot(geom = 'errorbar', width = 0.25, color = "darkcyan") + facet_wrap(~CurrentYear, ncol = 2) +
+  geom_boxplot(fill = "gray97", width = 0.4, color = "darkcyan")  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + 
+  labs(title = NULL, subtitle=NULL, y="Dissolved Oxygen (mg/L)") + geom_hline(yintercept = 9.5, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 
 #TEMP________________
 #ggplot2
@@ -249,7 +261,67 @@ ggplot(subset(AllCountsAmbient, Season == "Summer"), aes(Monitoring.Basin, TEMP)
   theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 
+#temp by basin by site for 2019
 
+Temp_HC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Horse Creek"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "red4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y="Temperature (Degrees Celsius)") + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+Temp_LS <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Little Swamp Creek"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "purple4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+Temp_LNC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Lower North Creek"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "springgreen4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+
+Temp_LSR <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Lower Sammamish River"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "slategray4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+
+Temp_PC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Perry Creek"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "turquoise4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+
+Temp_UNC <- ggplot(subset(AllCountsSUmmer2019, Monitoring.Basin == "Upper North Creek"), aes(Site, TEMP)) + 
+  facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(fill = "salmon4", width = 0.4, color = "darkcyan", alpha = 0.7)  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + ylim(10,18) +
+  labs(title = NULL, subtitle=NULL, y=NULL) + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_blank(), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+
+grid.arrange(Temp_HC, Temp_LS, Temp_PC, Temp_LNC, Temp_UNC, Temp_LSR, nrow = 1)
 
 #Sediment________________________________
 
@@ -267,14 +339,13 @@ pturb2019 <- ggplotly(pturb2019)
 pturb2019
 
 pturb2019runoff <- ggplot(AllCountsAmbient2019, aes(Site, Turbidity)) + 
-  stat_boxplot(geom = 'errorbar', width = 0.4, color = "cyan4") +
-  geom_boxplot(fill = "gray94", width = 0.5, color = "cyan4")  +
+  geom_boxplot(aes(fill = Precipitation), alpha=0.3,na.rm=TRUE)  +
   labs(title = "e. Turbidity (NTU)", subtitle=NULL, y=NULL, x=NULL) +
   theme(axis.title.y = element_text(size=7), title = element_text(size = 15), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
   theme_few() + theme(axis.title.y = element_text(size=7), title = element_text(size = 8), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                       axis.text.y = element_text(size = 10), legend.title = element_text(size=18), legend.text = element_text(size=15)) + coord_flip()
 
-pturb2019 <- ggplotly(pturb2019)
+pturb2019runoff <- ggplotly(pturb2019runoff)
 
 f <- list(
   family = "helvetica",
@@ -316,12 +387,24 @@ ggplot(AllCountsAmbient2019, aes(Site, Turbidity, na.rm=TRUE)) + geom_boxplot(ae
   theme_bw() + theme(axis.title.y = element_text(size=18), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=15), legend.text = element_text(size=15))
 
-#compare by basin
+#turbidity compare by basin
 
 ggplot(AllCountsAmbient, aes(Monitoring.Basin, Turbidity, na.rm=TRUE)) + geom_boxplot(aes(fill=Precipitation), alpha=0.4,na.rm=TRUE) + geom_hline(yintercept = 4, color = "orange2", size = 1) + geom_hline(yintercept = 70, color = "red", size=1) +
   labs(title = NULL, subtitle=NULL, caption = "Source: In-Situ Monitoring, 2010-2018", y="Turbidity (NTU)") + scale_y_log10(breaks=c(0, 1, 2, 5, 10, 20, 50, 100, 200)) +
   theme_bw() + theme(axis.title.y = element_text(size=18), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=15), legend.text = element_text(size=15))
+
+
+ggplot(AllCountsAmbient, aes(Monitoring.Basin, Turbidity)) + 
+  facet_wrap(~CurrentYear, ncol = 2) +
+  geom_boxplot(aes(fill=Precipitation), alpha=0.4,na.rm=TRUE)  + scale_y_log10(breaks=c(0, 1, 2, 5, 10, 20, 50, 100, 200)) +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + 
+  labs(title = NULL, subtitle=NULL, y="Temperature (Degrees Celsius)") + geom_hline(yintercept = 16, color="red", size=1) + 
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15))
+
 
 #Metals_______________
 
