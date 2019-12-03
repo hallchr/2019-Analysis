@@ -54,11 +54,12 @@ NC_1_Excel <-  read.xlsx(dbPath1, "NC_1", detectDates = T)
 WC_1_Excel <-  read.xlsx(dbPath1, "WC_1", detectDates = T)
 QC_1_Excel <- read.xlsx(dbPath1, "QC_1", detectDates = T)
 NC_2_Excel <- read.xlsx(dbPath1, "NC_2", detectDates = T)
+WHM_Excel <- read.xlsx(dbPath1, "WHM", detectDates = T)
 
 # Combine Worksheets
 AllCountsAmbient <- rbind(SARU_Excel, LS_1_Excel, JO_1_Excel, PM_1_Excel,
                           NCLD_Excel, HC_1_Excel,HC_2_Excel, NC_1_Excel, WC_1_Excel, QC_1_Excel,
-                          NC_2_Excel)
+                          NC_2_Excel, WHM_Excel)
 #Creat Year and Month Vectors
 
 AllCountsAmbient$Month <- month(AllCountsAmbient$Date, label = TRUE, abbr = TRUE)
